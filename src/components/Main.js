@@ -26,7 +26,11 @@ AppComponent.defaultProps = {
 //top-most component, holds other components
 class TodoContainer extends React.Component {
 	render() {
-		const todos = [{ name: 'groceries' }, { name: 'laundry' }, { name: 'trash' }]
+		const todos = [
+			{	id: 1, name: 'groceries' },
+			{ id: 2, name: 'laundry' },
+			{ id: 3, name: 'trash' }
+		];
 
 		return (
 			<div className='todoContainer'>
@@ -52,7 +56,7 @@ class Banner extends React.Component {
 //a UI component for the user to enter a new todo
 class TodoBox extends React.Component {
 	addTodo() {
-		events.emit('new-todo', 'newState');
+		events.emit('new-todo', 'something');
 	}
 	render() {
 		return (
@@ -65,16 +69,18 @@ class TodoBox extends React.Component {
 }
 
 class TodoList extends React.Component {
-	render() {
-		const todos = this.props.todos;
-		let rows = [];
-
+	constructor() {
+		super();
 		events.on('new-todo', (state) => {
-			console.log('a new todo requested')
+			console.log('creating a new todo');
+			console.log(state);
   		this.setState({name: 'my new value'});
 		});
+	}
+	render() {
+		let rows = [];
 
-		todos.forEach(function(todo){
+		this.props.todos.forEach(function(todo){
 			rows.push((
 				<Todo name={todo.name}></Todo>
 			))
@@ -90,9 +96,19 @@ class TodoList extends React.Component {
 }
 
 class Todo extends React.Component {
+	constructor(props) {
+		super(props)
+		this.state = { isComplete: false };
+	}
+	removeTodo(e) {
+		this.setState({ isComplete: true })
+	}
 	render() {
 		return (
-			<tr>{this.props.name}</tr>
+			<tr>
+				{this.props.name} | isComplete: {this.state.isComplete}
+				<button type='button' onClick={this.removeTodo}>x</button>
+			</tr>
 		)
 	}
 }
