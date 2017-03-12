@@ -4,7 +4,9 @@ export default class TodoItem extends Component {
 	render(){
 		return (
 			<div>
-				TodoItem
+				{this.props.title}
+				<button>complete</button>
+				<button>delete</button>
 			</div>
 		);
 	}
