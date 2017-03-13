@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import request from 'request';
 import TodoItem from './TodoItem';
+import _ from 'lodash';
 
 export default class TodoList extends Component {
 	constructor(props){
@@ -13,10 +14,8 @@ export default class TodoList extends Component {
 	}
 
 	componentDidMount() {
-		const url = 'https://jsonplaceholder.typicode.com/todos';
-
+		const url = 'http://localhost:9000/api/todos';
 		request.get(url, (error, response, body) => {
-
 			// set state to list recieved from backend
 			this.setState({
 				todos: JSON.parse(body)
@@ -27,14 +26,22 @@ export default class TodoList extends Component {
 	render(){
 		let todoItems = this.state.todos.map((todo) => {
 			return (
-				<TodoItem title={todo.title} />
+				<TodoItem title={todo.title} iscomplete={todo.iscomplete}/>
 			);
 		});
 
+		function Todos(props){
+			if(!_.isEmpty(props.todoList)) {
+				return <div>{todoItems}</div>
+			} else {
+				return <div><p>you havent created any todos yet.</p></div>
+			}
+		}
+
 		return (
 			<div>
-				TodoList
-				{todoItems}
+				TodoList:
+				<Todos todoList={this.state.todos} />
 			</div>
 		);
 	}

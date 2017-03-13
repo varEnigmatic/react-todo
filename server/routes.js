@@ -2,16 +2,17 @@ const pg = require('pg');
 const shortid = require('shortid');
 
 const pool = new pg.Pool({
-	user: 'matthewpengelly', //process.ENV.USERNAME
-	password: 'postgres', //process.ENV.POSTGRES_PASSWORD
-	database: 'todoapp', //PROCESS.ENV.TODO_DB
-	host: 'localhost', //PROCESS.ENV.APP_HOST
+	user: process.env.USERNAME,
+	password: process.env.POSTGRES_PASSWORD,
+	database: process.env.TODO_DB,
+	host: process.env.APP_HOST,
 	max: 10, // max number of clients in pool
 	idleTimeoutMillis: 1000,
 	port: 5432
 });
 
 let querystring = '';
+let uid;
 
 module.exports = function(app){
 	// routing
@@ -64,11 +65,10 @@ module.exports = function(app){
 				throw err;
 			}
 
-			shortid.generate();
+			uid = shortid.generate();
 			querystring = `INSERT INTO todos
-				(id, title, isComplete)
-				VALUES
-				('${id}', '${req.body.title}', ${false})
+				(id, title, iscomplete)
+				VALUES ('${uid}', '${req.body.todoName}', ${false})
 			`;
 
 			client.query(querystring, (err, result) => {
@@ -79,7 +79,7 @@ module.exports = function(app){
 				// was successful
 				release();
 				if(result && result.rows) {
-					res.send(result.rows);
+					res.send('created todo');
 				}
 			});
 		});
@@ -100,7 +100,6 @@ module.exports = function(app){
 				// was successful
 				release();
 				if(result && result.rows) {
-					res.send(result.rows);
 					res.send('updated todo');
 				}
 			});

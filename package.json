@@ -8,6 +8,7 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
+    "lodash": "^4.17.4",
     "morgan": "^1.8.1",
     "path": "^0.12.7",
     "pg": "^6.1.4",
@@ -20,6 +21,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "remake-db": "psql todoapp -f server/scripts/remake-database.sql"
   }
 }
