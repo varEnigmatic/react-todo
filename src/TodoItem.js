@@ -22,7 +22,6 @@ export default class TodoItem extends Component {
 			title: this.state.title,
 			iscomplete: true
 		};
-		console.log(state);
 
 		this.setState(state);
 		request.put(`http://localhost:9000/api/todos/${this.state.id}`).form(state);

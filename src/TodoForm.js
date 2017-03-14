@@ -16,7 +16,7 @@ export default class TodoForm extends Component {
 				title: inputValue,
 				iscomplete: false
 			};
-			request.post('http://localhost:9000/api/todos', state);
+			request.post('http://localhost:9000/api/todos').form(state);
 		} else {
 			alert('input is required to create a new todo');
 		}

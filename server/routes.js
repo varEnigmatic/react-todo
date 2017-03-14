@@ -64,15 +64,10 @@ module.exports = function(app){
 			if (err) {
 				throw err;
 			}
-			console.log('req.body');
-			console.log(req.body);
-			console.log('req.params');
-			console.log(req.params);
 
 			uid = shortid.generate();
-			querystring = `INSERT INTO todos
-				(id, title, iscomplete)
-				VALUES ('${uid}', '${req.body.todoName}', ${false})
+			querystring = `INSERT INTO todos (id, title, iscomplete)
+				VALUES ('${uid}', '${req.body.title}', ${req.body.iscomplete})
 			`;
 
 			client.query(querystring, (err, result) => {
