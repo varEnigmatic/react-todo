@@ -26,7 +26,7 @@ export default class TodoList extends Component {
 	render(){
 		let todoItems = this.state.todos.map((todo) => {
 			return (
-				<TodoItem title={todo.title} iscomplete={todo.iscomplete}/>
+				<TodoItem id={todo.id} title={todo.title} iscomplete={todo.iscomplete} />
 			);
 		});
 

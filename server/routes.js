@@ -64,6 +64,10 @@ module.exports = function(app){
 			if (err) {
 				throw err;
 			}
+			console.log('req.body');
+			console.log(req.body);
+			console.log('req.params');
+			console.log(req.params);
 
 			uid = shortid.generate();
 			querystring = `INSERT INTO todos
@@ -92,7 +96,13 @@ module.exports = function(app){
 				throw err;
 			}
 
-			client.query(`SELECT * FROM posts WHERE id = ${req.params.id}`, (err, result) => {
+			querystring = `UPDATE todos SET
+				title = '${req.body.title || null}',
+				iscomplete = '${req.body.iscomplete}'
+				WHERE id = '${req.params.id}'
+			`;
+
+			client.query(querystring, (err, result) => {
 				if (err) {
 					throw err;
 				}

@@ -6,12 +6,12 @@ CREATE TABLE todos (
 	iscomplete boolean
 );
 
-DO $$
-BEGIN
-	FOR counter IN 1..10 LOOP
-	INSERT INTO todos (id, title, iscomplete)
-		VALUES (counter, 'placeholder', FALSE);
-	END LOOP;
-END; $$
+-- DO $$
+-- BEGIN
+-- 	FOR counter IN 1..10 LOOP
+-- 	INSERT INTO todos (id, title, iscomplete)
+-- 		VALUES (counter, 'placeholder', FALSE);
+-- 	END LOOP;
+-- END; $$
 
 
