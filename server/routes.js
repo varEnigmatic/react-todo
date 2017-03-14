@@ -97,7 +97,7 @@ module.exports = function(app){
 			}
 
 			querystring = `UPDATE todos SET
-				title = '${req.body.title || null}',
+				title = '${req.body.title}',
 				iscomplete = '${req.body.iscomplete}'
 				WHERE id = '${req.params.id}'
 			`;
