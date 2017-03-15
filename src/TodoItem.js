@@ -9,9 +9,6 @@ export default class TodoItem extends Component {
 			title: this.props.title,
 			iscomplete: this.props.iscomplete
 		}
-
-		this.onCompleteClick = this.onCompleteClick.bind(this);
-		this.onDeleteClick = this.onDeleteClick.bind(this);
 	}
 
 	onCompleteClick(e){
@@ -25,12 +22,6 @@ export default class TodoItem extends Component {
 
 		this.setState(state);
 		request.put(`http://localhost:9000/api/todos/${this.state.id}`).form(state);
-	}
-
-	onDeleteClick(e){
-		e.preventDefault();
-
-		request.delete(`http://localhost:9000/api/todos/${this.state.id}`);
 	}
 
 	render(){
