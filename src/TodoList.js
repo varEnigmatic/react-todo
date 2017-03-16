@@ -5,9 +5,14 @@ import _ from 'lodash';
 
 export default class TodoList extends Component {
 	render(){
-		let todoItems = this.state.todos.map((todo) => {
+		let todoItems = this.props.todos.map((todo) => {
 			return (
-				<TodoItem id={todo.id} title={todo.title} iscomplete={todo.iscomplete} />
+				<TodoItem
+					id={todo.id}
+					title={todo.title}
+					iscomplete={todo.iscomplete}
+					remove={this.props.remove}
+				/>
 			);
 		});
 
@@ -22,7 +27,7 @@ export default class TodoList extends Component {
 		return (
 			<div>
 				TodoList:
-				<Todos todoList={this.state.todos} />
+				<Todos todoList={this.props.todos} />
 			</div>
 		);
 	}

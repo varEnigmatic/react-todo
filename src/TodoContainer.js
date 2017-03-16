@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
+import request from 'request';
+
 
 export default class TodoContainer extends Component {
 	constructor(props){
@@ -38,9 +40,15 @@ export default class TodoContainer extends Component {
 		}
 	}
 
-	deleteTodo(){
-
-		request.delete(`http://localhost:9000/api/todos/${this.state.id}`);
+	deleteTodo(id){
+		const remaining = this.state.todos.filter((todo) => {
+			if(todo.id !== id){
+				return todo;
+			}
+		});
+		// Update state with filter
+		this.setState({ todos: remaining });
+		request.delete(`http://localhost:9000/api/todos/${id}`);
 	}
 
 	render(){

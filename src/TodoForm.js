@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
-import request from 'request';
 
 export default class TodoForm extends Component {
 	render(){
+		let input;
 		return (
 			// <form action="/api/todos" method="post">
 			<form>
 				<label>
 					TodoForm:
-					<input name="todoName" type="text" ref="inputbox"/>
+					<input name="todoName" type="text" ref={(node) => {
+						input = node;
+					}} />
 				</label>
-				<button onClick={this.onSubmitClick} type="submit">add new</button>
+				<button  type="submit" onClick={() => {
+					this.props.addTodo(input.value);
+					input.value = '';
+				}}>
+					add new
+				</button>
 			</form>
 		);
 	}
