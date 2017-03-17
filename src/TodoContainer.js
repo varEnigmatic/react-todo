@@ -46,10 +46,25 @@ export default class TodoContainer extends Component {
 				return todo;
 			}
 		});
+
 		// Update state with filter
-		this.setState({ todos: remaining });
 		request.delete(`http://localhost:9000/api/todos/${id}`);
+		this.setState({ todos: remaining });
 	}
+
+	completeTodo({id, title}){
+		//should remove element from array matching the id
+		const todo = {
+			id: id,
+			title: title,
+			iscomplete: true
+		};
+
+		this.state.todos[id] = todo;
+		this.setState({ todos: this.state.todos });
+		request.put(`http://localhost:9000/api/todos/${id}`).form(todo);
+	}
+
 
 	render(){
 		return (
@@ -58,6 +73,7 @@ export default class TodoContainer extends Component {
 				<TodoList
 					todos={this.state.todos}
 					remove={this.deleteTodo.bind(this)}
+					complete={this.completeTodo.bind(this)}
 				/>
 			</div>
 		);
