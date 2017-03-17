@@ -67,7 +67,7 @@ module.exports = function(app){
 
 			uid = shortid.generate();
 			querystring = `INSERT INTO todos (id, title, iscomplete)
-				VALUES ('${uid}', '${req.body.title}', ${req.body.iscomplete})
+				VALUES ('${uid}', '${req.body.title}', '${req.body.iscomplete}')
 			`;
 
 			client.query(querystring, (err, result) => {
@@ -103,6 +103,7 @@ module.exports = function(app){
 				}
 
 				// was successful
+				// return the new rows
 				release();
 				if(result && result.rows) {
 					res.send('updated todo');

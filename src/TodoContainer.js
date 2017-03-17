@@ -8,7 +8,7 @@ export default class TodoContainer extends Component {
 	constructor(props){
 		super(props);
 
-		// initialize state to empty array
+		// initialize app state to empty array
 		this.state = {
 			todos: []
 		};
@@ -24,17 +24,16 @@ export default class TodoContainer extends Component {
 		});
 	}
 
-	addTodo(){
-		let inputValue = this.refs.inputbox.value;
-		if(inputValue){
+	addTodo(title){
+		if(title){
 			const todo = {
-				title: inputValue,
+				title: title,
 				iscomplete: false
 			};
 
 			this.state.todos.push(todo);
 			this.setState({ todos: this.state.todos })
-			request.post('http://localhost:9000/api/todos').form(this.state.todos);
+			request.post('http://localhost:9000/api/todos').form(todo);
 		} else {
 			alert('input is required to create a new todo');
 		}
@@ -65,10 +64,11 @@ export default class TodoContainer extends Component {
 		request.put(`http://localhost:9000/api/todos/${id}`).form(todo);
 	}
 
-
+	//note when using react functions are defined above and passed down to child components for use
 	render(){
 		return (
 			<div>
+				<label>{this.state.todos.length}</label>
 				<TodoForm addTodo={this.addTodo.bind(this)}/>
 				<TodoList
 					todos={this.state.todos}
