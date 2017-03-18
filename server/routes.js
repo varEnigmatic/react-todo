@@ -1,5 +1,4 @@
 const pg = require('pg');
-const shortid = require('shortid');
 
 const pool = new pg.Pool({
 	user: process.env.USERNAME,
@@ -65,9 +64,8 @@ module.exports = function(app){
 				throw err;
 			}
 
-			uid = shortid.generate();
 			querystring = `INSERT INTO todos (id, title, iscomplete)
-				VALUES ('${uid}', '${req.body.title}', '${req.body.iscomplete}')
+				VALUES ('${req.body.id}', '${req.body.title}', '${req.body.iscomplete}')
 			`;
 
 			client.query(querystring, (err, result) => {

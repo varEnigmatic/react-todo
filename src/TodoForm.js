@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import request from 'request';
 
 export default class TodoForm extends Component {
 	render(){
@@ -9,7 +8,10 @@ export default class TodoForm extends Component {
 					TodoForm:
 					<input name="todoName" type="text" ref="inputbox"/>
 				</label>
-				<button onClick={() => {this.props.addTodo(this.refs.inputbox.value)}}>
+				<button onClick={() => {
+					this.props.addTodo(this.refs.inputbox.value);
+					this.refs.inputbox.value = '';
+				}}>
 					add new
 				</button>
 			</div>

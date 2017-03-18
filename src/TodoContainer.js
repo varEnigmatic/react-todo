@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import update from 'react-addons-update'; // ES6 immutability update helper
+import shortid from 'shortid';
+import _ from 'lodash';
+import 'whatwg-fetch'; //fetch
+
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
-import request from 'request';
-// var fetch = require('fetch').fetchUrl;
-import 'whatwg-fetch';
 
+let uid;
 export default class TodoContainer extends Component {
 	constructor(props){
 		super(props);
@@ -16,36 +19,45 @@ export default class TodoContainer extends Component {
 	}
 
 	componentDidMount() {
-		const url = 'http://localhost:9000/api/todos';
-		request.get(url, (error, response, body) => {
-			// set state to list recieved from backend
-			this.setState({
-				todos: JSON.parse(body)
+		fetch('/api/todos')
+			.then((response) => {
+				return response.json();
+			})
+			.then((text) => {
+				// set state to list received from backend
+				this.setState({
+					todos: text
+				});
+			})
+			.catch((error) => {
+				throw error;
 			});
-		});
 	}
 
 	addTodo(title){
 		if(title){
+			uid = shortid.generate();
 			const todo = {
+				id: uid,
 				title: title,
 				iscomplete: false
 			};
 
-			const url = 'http://localhost:9000/api/todos';
-			fetch(url, {
-			  method: 'POST',
-			  headers: { 'Content-Type': 'application/json' },
-			  body: JSON.stringify(todo)
-			})
-			.then(() => {
-				let updatedTodos = this.state.todos.map(item => item);
-				updatedTodos.push(todo);
-				this.setState({ todos: updatedTodos });
-			})
-			.then((error) => {
-				throw error;
-			});
+			const options = {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(todo)
+			};
+
+			fetch('/api/todos', options)
+				.then(() => {
+					let updatedTodos = this.state.todos.map(item => item);
+					updatedTodos.push(todo);
+					this.setState({ todos: updatedTodos });
+				})
+				.catch((error) => {
+					throw error;
+				});
 		} else {
 			alert('input is required to create a new todo');
 		}
@@ -59,24 +71,44 @@ export default class TodoContainer extends Component {
 		});
 
 		// Update state with filter
-		request.delete(`http://localhost:9000/api/todos/${id}`);
-		this.setState({ todos: remaining });
+		fetch(`/api/todos/${id}`, { method: 'DELETE' })
+			.then(() => {
+				this.setState({ todos: remaining });
+			})
+			.catch((error) => {
+				throw error;
+			});
 	}
 
+	//make into toggle?
 	completeTodo({id, title}){
-		//should remove element from array matching the id
 		const todo = {
 			id: id,
 			title: title,
 			iscomplete: true
 		};
+		const options = {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(todo)
+		};
 
-		this.state.todos[id] = todo;
-		this.setState({ todos: this.state.todos });
-		request.put(`http://localhost:9000/api/todos/${id}`).form(todo);
+		fetch(`/api/todos/${id}`, options)
+			.then(() => {
+				let index = _.findIndex(this.state.todos, (todo) => todo.id === id );
+
+				//[index] used to look up clicked element by its key and change its is complete value
+				this.setState({
+					todos: update(this.state.todos, {[index]: {iscomplete: {$set: true}}})
+				});
+			})
+			.catch((error) => {
+				throw error;
+			});
 	}
 
-	//note when using react functions are defined above and passed down to child components for use
+	// note: when using react functions are defined above and passed down to child components for use
+	// this way they can modify the state of the outer component
 	render(){
 		return (
 			<div>
