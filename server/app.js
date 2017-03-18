@@ -14,6 +14,7 @@ app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:htt
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
 // req body middleware
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // backend routing

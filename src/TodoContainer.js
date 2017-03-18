@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
 import request from 'request';
-var fetch = require('fetch').fetchUrl;
+// var fetch = require('fetch').fetchUrl;
+import 'whatwg-fetch';
 
 export default class TodoContainer extends Component {
 	constructor(props){
@@ -31,18 +32,20 @@ export default class TodoContainer extends Component {
 				iscomplete: false
 			};
 
-			// const url = 'http://localhost:9000/api/todos';
-			// const options = {
-			// 	method: 'POST',
-			// 	payload: todo
-			// };
-			// fetchUrl(url, options, (err, meta, body) => {
-			// 	console.log(body);
-			// 	this.state.todos.push(todo);
-			// 	this.setState({ todos: this.state.todos });
-			// });
-
-			request.post('http://localhost:9000/api/todos').form(todo);
+			const url = 'http://localhost:9000/api/todos';
+			fetch(url, {
+			  method: 'POST',
+			  headers: { 'Content-Type': 'application/json' },
+			  body: JSON.stringify(todo)
+			})
+			.then(() => {
+				let updatedTodos = this.state.todos.map(item => item);
+				updatedTodos.push(todo);
+				this.setState({ todos: updatedTodos });
+			})
+			.then((error) => {
+				throw error;
+			});
 		} else {
 			alert('input is required to create a new todo');
 		}
