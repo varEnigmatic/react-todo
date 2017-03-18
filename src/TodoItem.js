@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import request from 'request';
 
 export default class TodoItem extends Component {
 	render(){

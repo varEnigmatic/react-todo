@@ -27,7 +27,7 @@ export default class TodoList extends Component {
 
 		return (
 			<div>
-				TodoList:
+				TodoList :
 				{todoItems}
 			</div>
 		);

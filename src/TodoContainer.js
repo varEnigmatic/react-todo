@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
 import request from 'request';
-
+var fetch = require('fetch').fetchUrl;
 
 export default class TodoContainer extends Component {
 	constructor(props){
@@ -31,8 +31,17 @@ export default class TodoContainer extends Component {
 				iscomplete: false
 			};
 
-			this.state.todos.push(todo);
-			this.setState({ todos: this.state.todos })
+			// const url = 'http://localhost:9000/api/todos';
+			// const options = {
+			// 	method: 'POST',
+			// 	payload: todo
+			// };
+			// fetchUrl(url, options, (err, meta, body) => {
+			// 	console.log(body);
+			// 	this.state.todos.push(todo);
+			// 	this.setState({ todos: this.state.todos });
+			// });
+
 			request.post('http://localhost:9000/api/todos').form(todo);
 		} else {
 			alert('input is required to create a new todo');
