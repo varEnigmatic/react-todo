@@ -81,11 +81,12 @@ export default class TodoContainer extends Component {
 	}
 
 	//make into toggle?
-	completeTodo({id, title}){
+	completeTodo({id, title, iscomplete}){
+		let status = iscomplete ? false : true
 		const todo = {
 			id: id,
 			title: title,
-			iscomplete: true
+			iscomplete: status
 		};
 		const options = {
 			method: 'PUT',
@@ -99,7 +100,7 @@ export default class TodoContainer extends Component {
 
 				//[index] used to look up clicked element by its key and change its is complete value
 				this.setState({
-					todos: update(this.state.todos, {[index]: {iscomplete: {$set: true}}})
+					todos: update(this.state.todos, {[index]: {iscomplete: {$set: status}}})
 				});
 			})
 			.catch((error) => {

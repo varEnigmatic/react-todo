@@ -10,8 +10,8 @@ export default class TodoItem extends Component {
 
 		return (
 			<div>
+				<button onClick={() => {this.props.complete(this.props)}}>{this.props.iscomplete ? 'incomplete' : 'complete'}</button>
 				<TodoTitle title={this.props.title} iscomplete={this.props.iscomplete} />
-				<button onClick={() => {this.props.complete(this.props)}}>complete</button>
 				<button onClick={() => {this.props.remove(this.props.id)}}>delete</button>
 			</div>
 		);
