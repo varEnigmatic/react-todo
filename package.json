@@ -6,14 +6,24 @@
     "react-scripts": "0.9.5"
   },
   "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "fetch": "^1.1.0",
+    "lodash": "^4.17.4",
+    "morgan": "^1.8.1",
+    "path": "^0.12.7",
+    "pg": "^6.1.4",
     "react": "^15.4.2",
+    "react-addons-update": "^15.4.2",
     "react-dom": "^15.4.2",
-    "request": "^2.81.0"
+    "shortid": "^2.2.8",
+    "whatwg-fetch": "^2.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "remake-db": "psql todoapp -f server/scripts/remake-database.sql"
   }
 }
