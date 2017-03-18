@@ -11,7 +11,6 @@ const pool = new pg.Pool({
 });
 
 let querystring = '';
-let uid;
 
 module.exports = function(app){
 	// routing
